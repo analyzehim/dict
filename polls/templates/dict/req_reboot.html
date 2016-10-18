@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <style>
+   .Center {
+    text-align:  center;
+   }
+  </style>
+    <title>Parse Page</title>
+</head>
+<body>
+<div class="Center">
+<form action="{% url 'polls:reboot'%}" method="post">
+  {% csrf_token %}
+ Are you sure to reboot system?
+ <p>
+ <input type="submit" value="Yeah" />
+    </p>
+</form>
+</div>
+</body>
+</html>
