@@ -1,69 +1,49 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from polls.models import Word
+from defs import get_word
 import random
 import os
 import time
 import sys
+import glob
+
 # Create your views here.
 
 
 
 def parsing(request):
     GT=time.time()
-    
-    word=Word(id=1, word_eng='key',word_rus='key',count=0,coef=100,flag=0)
+    Word.objects.all().delete()
+    id_max = 1
+
+    word=Word(id=id_max, word_eng='key',word_rus='key')
     try:
         word.save()
     except:
-        print word.word_eng
+        print word.id, word_eng
         pass
-    file_list=['adjective.txt','adverb_preposition.txt','verb.txt','noun.txt']
-    while 1:
-        count=0
-        for file_name in file_list:
-            f=open(file_name,'r')
-            print f
-            for s in f:
-                id_max=Word.objects.all().order_by("-id")[0]
-                mas=s.split(':')
-                word_eng1=mas[0]
-                try:
-                    word=Word.objects.get(word_eng=word_eng1)
-                    #print "Already exists "+ str(word.word_eng)
+    file_list=glob.glob('data/*.txt')
+    for file in file_list:
+            f=open(file,'r')
+            print file
+            for string in f:
+                
+                word = get_word(string, file)
+                if word == 1:
                     continue
+                id_max+=1
+                word.id = id_max
+                try:
+                    word.save()
                 except:
-                    count+=1
-                    word_rus1=unicode(mas[1], "CP1251" )
+                    time.sleep(1)
+                    print "ERROR: ",word.word_eng, string
+                    pass
 
-                    if word_rus1[len(word_rus1)-1]=='\n':
-                        word_rus1= word_rus1[0:len(word_rus1)-1]
-                    #print word_rus1
-                    word=Word(id=id_max.id+1, word_eng=word_eng1,word_rus=word_rus1)
-                    word.count=0
-                    word.flag=0
-                    word.coef=100
-                    try:
-                        word.save()
-                    except:
-                        time.sleep(1)
-                        print word.word_eng
-                        pass
-                    if len(mas)>2:
-                        word.example=mas[2]
-                    try:
-                        word.save()
-                    except:
-                        time.sleep(1)
-                        print word.word_eng
-                        pass
-
-            id_max=Word.objects.all().order_by("-id")[0]
-            f.close()
-        if (count==0):
-            break
-    
-    return HttpResponse(str(id_max.id)+" "+str(time.time()-GT))
+            f.close() 
+    return HttpResponse(str(id_max)+" "+str(time.time()-GT))
+'''
 def generate_word(length):
     a=[]
 
@@ -139,7 +119,7 @@ def index(request):
 
 
 
-'''
+
 
 def req_reboot(request):
     return render(request, 'dict/req_reboot.html')
@@ -156,7 +136,7 @@ def reboot(request):
 def shutdown(request):
     os.system("shutdown /s")
     return HttpResponse("Shutdown system")
-'''
+
 def get_ip(request):
     word=Word.objects.all()
     for i in word:
@@ -167,3 +147,4 @@ def get_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return HttpResponse(ip)
+'''
