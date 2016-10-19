@@ -42,3 +42,4 @@ exciting:захватывающий, возбуждающий, волнующий: is the most exciting. As you kn
 folksy:народный, общительный, близкий к народу: with the delightfully folksy tale of the Whore of Omaha?
 foreig:чужой
 grievances: жалобы
+vast:огромный

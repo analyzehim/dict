@@ -14,35 +14,27 @@ import glob
 
 def parsing(request):
     GT=time.time()
-    Word.objects.all().delete()
-    id_max = 1
+    #Word.objects.all().delete()
 
-    word=Word(id=id_max, word_eng='key',word_rus='key')
-    try:
-        word.save()
-    except:
-        print word.id, word_eng
-        pass
     file_list=glob.glob('data/*.txt')
+    count = 0
     for file in file_list:
-            f=open(file,'r')
-            print file
-            for string in f:
-                
-                word = get_word(string, file)
-                if word == 1:
-                    continue
-                id_max+=1
-                word.id = id_max
-                try:
-                    word.save()
-                except:
-                    time.sleep(1)
-                    print "ERROR: ",word.word_eng, string
-                    pass
-
-            f.close() 
-    return HttpResponse(str(id_max)+" "+str(time.time()-GT))
+        f=open(file,'r')
+        for string in f:
+            word = get_word(string, file)
+            if word == 1:
+                continue
+            print word
+            try:
+                word.save()
+                count+=1
+            except:
+                time.sleep(1)
+                print "ERROR: ",word.word_eng, string
+                pass
+        print file, count
+        f.close() 
+    return HttpResponse(str(count)+" words created by "+str(time.time()-GT))
 '''
 def generate_word(length):
     a=[]
@@ -127,24 +119,25 @@ def req_shutdown(request):
     return render(request, 'dict/req_shutdown.html')
 def req_clean(request):
     return render(request, 'dict/req_clean.html')
-def clean(request):
-    Word.objects.all().delete()
-    return HttpResponse("Clean")
+
 def reboot(request):
     os.system("shutdown /r")
     return HttpResponse("Reboot system")
 def shutdown(request):
     os.system("shutdown /s")
     return HttpResponse("Shutdown system")
+'''
+
+def clean(request):
+    Word.objects.all().delete()
+    return HttpResponse("Clean")
 
 def get_ip(request):
-    word=Word.objects.all()
-    for i in word:
-        print i.word_rus
+
+
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
-    return HttpResponse(ip)
-'''
+    return HttpResponse("IP :" + str(ip))
