@@ -6,6 +6,9 @@ import os
 import time
 import sys
 # Create your views here.
+
+
+
 def parsing(request):
     GT=time.time()
     
@@ -136,7 +139,7 @@ def index(request):
 
 
 
-
+'''
 
 def req_reboot(request):
     return render(request, 'dict/req_reboot.html')
@@ -153,6 +156,7 @@ def reboot(request):
 def shutdown(request):
     os.system("shutdown /s")
     return HttpResponse("Shutdown system")
+'''
 def get_ip(request):
     word=Word.objects.all()
     for i in word:
