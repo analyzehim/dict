@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from polls.models import Word
-from defs import get_word
+
 import random
 import os
 import time
@@ -13,6 +13,7 @@ import glob
 
 
 def parsing(request):
+    from defs import get_word
     GT=time.time()
     #Word.objects.all().delete()
 
@@ -35,40 +36,47 @@ def parsing(request):
                 pass
         print file, count
         f.close() 
-    return HttpResponse(str(count)+" words created by "+str(time.time()-GT))
+    #return HttpResponse(str(count)+" words created by "+str(time.time()-GT))
+    return HttpResponse(str(count))
 
 
 def test_parsing(request):
+    from defs import test_case
     GT=time.time()
-    import requests
+    url_parse = 'http://127.0.0.1:8000/polls/parse'
+    url_clean = 'http://127.0.0.1:8000/polls/clean'
 
-    r = requests.get('http://127.0.0.1:8000/polls/clean')
-    if r.text != 'Clean':
-        return HttpResponse("ERROR in 1 TestCase: <br>"+str(r.text))
-    print "____________TEST CASE 1 OK_______"    
+    if not test_case(url_clean,'Clean'):
+        return HttpResponse("ERROR in 1 TestCase")
+    print "____________TEST CASE 1 OK_______" 
 
-    r = requests.get('http://127.0.0.1:8000/polls/parse')
-    if r.text.split(' ')[0]!='397':
-        return HttpResponse("ERROR in 2 TestCase: <br>"+str(r.text))
-    print "____________TEST CASE 2 OK_______" 
+    if not test_case(url_parse,'397'):
+        return HttpResponse("ERROR in 2 TestCase")
+    print "____________TEST CASE 2 OK_______"
 
-
-    r = requests.get('http://127.0.0.1:8000/polls/clean')
-    if r.text != 'Clean':
-        return HttpResponse("ERROR in 3 TestCase: <br>"+str(r.text))
+    if not test_case(url_clean,'Clean'):
+        return HttpResponse("ERROR in 3 TestCase")
     print "____________TEST CASE 3 OK_______" 
-
-      
+       
 
     f = open("data/adjective.txt", 'a')
     f.write("covet:domogatsa")
     f.close()
 
-    r = requests.get('http://127.0.0.1:8000/polls/parse')
+    if not test_case(url_parse,'398'):
+            f = open("data/adjective.txt", 'r')
+            lines = f.readlines()
+            lines = lines[:-1]
+            f.close()
 
-    if r.text.split(' ')[0]!='398':
-        return HttpResponse("ERROR in 4 TestCase: <br>"+str(r.text))
-    print "____________TEST CASE 4 OK_______" 
+            f = open("data/adjective.txt", 'w')
+            for line in lines:
+                f.write(line)
+            f.close()
+            return HttpResponse("ERROR in 4 TestCase")
+    print "____________TEST CASE 4 OK_______"
+    
+
     f = open("data/adjective.txt", 'r')
     lines = f.readlines()
     lines = lines[:-1]
@@ -80,34 +88,13 @@ def test_parsing(request):
     f.close()
 
 
-  
-
-
-
-
     return HttpResponse("Passed. <br> Time: "+str(time.time()-GT))
 
 '''
-def generate_word(length):
-    a=[]
 
-    word = Word.objects.all()
-    for i in word:
-        if (i.coef>100):
-            a.append(i.id)
-        if (i.coef==100):
-            a.append(i.id)
-            a.append(i.id)
-            a.append(i.id)
-        if (i.coef<100):
-            for k in range(5*int(float(100)/float(i.coef)+1)):
-                a.append(i.id)
-
-
-   # word=Word.objects.all().order_by("-coef")[length-1]
-    return random.choice(a)
 
 def index(request):
+    from defs import generate_word
     flag="False"
     try:
 

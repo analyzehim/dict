@@ -45,3 +45,33 @@ def get_word(string, file):
 
 
 	return word
+
+
+
+def generate_word(length):
+    a=[]
+
+    word = Word.objects.all()
+    for i in word:
+        if (i.coef>100):
+            a.append(i.id)
+        if (i.coef==100):
+            a.append(i.id)
+            a.append(i.id)
+            a.append(i.id)
+        if (i.coef<100):
+            for k in range(5*int(float(100)/float(i.coef)+1)):
+                a.append(i.id)
+
+
+   # word=Word.objects.all().order_by("-coef")[length-1]
+    return random.choice(a)
+
+
+def test_case(url, text):
+	import requests
+	r = requests.get(url)
+	if r.text != text:
+		print "Real: ", r.text, "\nExpected: ", text
+		return False
+	return True
