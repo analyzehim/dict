@@ -7,6 +7,7 @@ from polls import views
 urlpatterns = [
 
     url(r'^parse', views.parsing, name='parse'),
+    url(r'^test', views.test_parsing, name='test'),
     #url(r'^$', views.index, name='index'),
     url(r'^get_ip', views.get_ip, name='get_ip'),
     #url(r'^reboot', views.req_reboot, name='req_reboot'),

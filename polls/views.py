@@ -24,9 +24,10 @@ def parsing(request):
             word = get_word(string, file)
             if word == 1:
                 continue
-            print word
+            #print word
             try:
                 word.save()
+                #time.sleep(0.1)
                 count+=1
             except:
                 time.sleep(1)
@@ -35,6 +36,57 @@ def parsing(request):
         print file, count
         f.close() 
     return HttpResponse(str(count)+" words created by "+str(time.time()-GT))
+
+
+def test_parsing(request):
+    GT=time.time()
+    import requests
+
+    r = requests.get('http://127.0.0.1:8000/polls/clean')
+    if r.text != 'Clean':
+        return HttpResponse("ERROR in 1 TestCase: <br>"+str(r.text))
+    print "____________TEST CASE 1 OK_______"    
+
+    r = requests.get('http://127.0.0.1:8000/polls/parse')
+    if r.text.split(' ')[0]!='397':
+        return HttpResponse("ERROR in 2 TestCase: <br>"+str(r.text))
+    print "____________TEST CASE 2 OK_______" 
+
+
+    r = requests.get('http://127.0.0.1:8000/polls/clean')
+    if r.text != 'Clean':
+        return HttpResponse("ERROR in 3 TestCase: <br>"+str(r.text))
+    print "____________TEST CASE 3 OK_______" 
+
+      
+
+    f = open("data/adjective.txt", 'a')
+    f.write("covet:domogatsa")
+    f.close()
+
+    r = requests.get('http://127.0.0.1:8000/polls/parse')
+
+    if r.text.split(' ')[0]!='398':
+        return HttpResponse("ERROR in 4 TestCase: <br>"+str(r.text))
+    print "____________TEST CASE 4 OK_______" 
+    f = open("data/adjective.txt", 'r')
+    lines = f.readlines()
+    lines = lines[:-1]
+    f.close()
+
+    f = open("data/adjective.txt", 'w')
+    for line in lines:
+        f.write(line)
+    f.close()
+
+
+  
+
+
+
+
+    return HttpResponse("Passed. <br> Time: "+str(time.time()-GT))
+
 '''
 def generate_word(length):
     a=[]
