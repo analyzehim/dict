@@ -34,7 +34,7 @@ def parsing(request):
                 time.sleep(1)
                 print "ERROR: ",word.word_eng, string
                 pass
-        print file, count
+        print file, count, time.time()-GT
         f.close() 
     #return HttpResponse(str(count)+" words created by "+str(time.time()-GT))
     return HttpResponse(str(count))
@@ -90,7 +90,7 @@ def test_parsing(request):
 
     return HttpResponse("Passed. <br> Time: "+str(time.time()-GT))
 
-'''
+
 
 
 def index(request):
@@ -106,7 +106,7 @@ def index(request):
             word.flag+=1
             word.save()
             flag="True"
-        word.coef=100*word.flag/word.count+1
+        #word.coef=100*word.flag/word.count+1
         word.save()
     except:
         print sys.exc_info()
@@ -143,7 +143,7 @@ def index(request):
     for i in mas:
         answer.append(i)
     answer.append(flag)
-    
+    print len(answer)
     return render(request, 'dict/index.html', {'FinalList':answer})
 
 
@@ -151,7 +151,7 @@ def index(request):
 
 
 
-
+'''
 def req_reboot(request):
     return render(request, 'dict/req_reboot.html')
 def req_shutdown(request):
@@ -175,8 +175,58 @@ def get_ip(request):
 
 
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
     return HttpResponse("IP :" + str(ip))
+
+
+    return HttpResponse(str(count))
+def generate_list():
+    max_id = Word.objects.all().order_by("-id")[0].id
+    mas = range(max_id)
+    mas = random.sample(mas, 4)
+    correct_id = random.sample(mas,1)
+    new_mas = [mas.index(correct_id[0])]
+    new_mas.append(Word.objects.get(id=correct_id[0]))
+    new_mas.append(Word.objects.get(id=mas[0]).word_rus)
+    new_mas.append(Word.objects.get(id=mas[1]).word_rus)
+    new_mas.append(Word.objects.get(id=mas[2]).word_rus)
+    new_mas.append(Word.objects.get(id=mas[3]).word_rus)
+    print correct_id[0]
+    new_mas.append(correct_id[0])
+    return new_mas
+
+def quiz_res(request):
+    pass
+    
+
+
+def quiz(request):
+    #ans1 = Word.objects.all().order_by("id")
+    ans1 = generate_list()
+    print ans1[0]
+    return render(request, 'dict/begin.html', {'FinalList':ans1})
+
+def quiz_con(request):
+    print request.POST['q']
+    correct_key = int(request.POST['0'])
+    key_ans=0
+    for key in request.POST:
+        if key == 'csrfmiddlewaretoken' or key == '0':
+            continue
+        key_ans = key
+    correct_rus = Word.objects.get(id=request.POST['q']).word_rus
+    correct_eng = Word.objects.get(id=request.POST['q']).word_eng
+    print correct_rus,request.POST[key_ans],request.POST['q']
+    if int(key_ans) == correct_key+1:
+        ans1=[]
+    
+    else:
+        ans1=[correct_rus,request.POST[key_ans],correct_eng]
+
+
+    return render(request, 'dict/res.html', {'FinalList':ans1})
+

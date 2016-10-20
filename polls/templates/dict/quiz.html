@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Output</title>
+</head>
+<body>
+
+<form action="{% url 'quiz_con'%}" method="post">
+  {% csrf_token %}
+<input  name="text1" value = {{FinalList.1}}>
+</form>
+Hello
+
+</body>
+</html>

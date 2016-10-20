@@ -8,7 +8,7 @@
 {% if FinalList %}
 <h1>{{FinalList.6}}</h1>
 <h1>{{FinalList.0}}</h1>
-    <form action="{% url 'polls:index'%}" method="post">
+    <form action="{% url 'index'%}" method="post">
       {% csrf_token %}
 
 <form action="javascript:window.location.reload()">

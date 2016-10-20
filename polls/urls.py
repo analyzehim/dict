@@ -8,8 +8,10 @@ urlpatterns = [
 
     url(r'^parse', views.parsing, name='parse'),
     url(r'^test', views.test_parsing, name='test'),
-    #url(r'^$', views.index, name='index'),
+    url(r'^index', views.index, name='index'),
     url(r'^get_ip', views.get_ip, name='get_ip'),
+    url(r'^quiz$', views.quiz, name='quiz'),
+    url(r'^quiz_con$', views.quiz_con, name='quiz_con'),
     #url(r'^reboot', views.req_reboot, name='req_reboot'),
     #url(r'^shutdown', views.req_shutdown, name='req_shutdown'),
     #url(r'^0d6551d674fdb9f978c8ce74a5ad6515', views.reboot, name='reboot'),

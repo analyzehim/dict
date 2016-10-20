@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Output</title>
+<style>
+input[type=submit], input[type=text] {
+ 
+    font-size: 24px;
+
+}
+</style>
+</head>
+<body>
+<h1>{{FinalList.1}}</h1>
+<form action="{% url 'quiz_con'%}" method="post">
+  {% csrf_token %}
+
+    <input type="hidden" name="0" value="{{FinalList.0}}">
+    <input type="hidden" name="q" value="{{FinalList.6}}">
+    <input type="submit" name='1' value="{{FinalList.2}}"  style="width: 100%; height: 100px">
+    <input type="submit" name='2' value="{{FinalList.3}}"  style="width: 100%; height: 100px">
+    <input type="submit" name='3' value="{{FinalList.4}}"  style="width: 100%; height: 100px">
+    <input type="submit" name='4' value="{{FinalList.5}}"  style="width: 100%; height: 100px">
+</form>
+</body>
+</html>
