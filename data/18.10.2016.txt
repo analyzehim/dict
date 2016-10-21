@@ -23,3 +23,76 @@ sanctuary:святилище
 exiled:сосланный
 breeds:вскармливать, порода, поколение
 cajoling:уговаривать
+curling:вьющийся
+ledge:выступ, край
+disbelief:неверие, сомнение, недоверие
+beneath:под, ниже
+dizzyingly:головокружительно
+roamed:бродяга, странствовать
+inch:дюйм, дюймовый, двигаться медленно
+ignorants:невежественный, невоспитанный
+grasp:понять, схватить, понимание, схватывание
+necessity:необходимость, нужда
+extinguish:тушить, гасить
+beckons:манит (жестом), кивает
+commodity:товар, продукт
+startles:вздрагивает, испуг
+mournful:скорбное, печальное
+veneration:почитание, благоговение
+simmering:утихает, булькает, кипятить на медленном огне
+supplication:мольба, просьба
+shroud:пелена, саван
+cloth:ткань, полотно
+hung:висеть
+writhing:
+feces:фекалии
+devouring:пожирание
+sternly:строго
+ringlets:локоны
+waist:талия
+pale:бледный, бледнеть
+bore:
+mud:грязь, ил
+nubs:
+shaggy:
+counter:
+lissome:проворный, гибкий
+penetrating: пронзительный, проникающий
+frightening:пугающий, ужасный
+probed:зондировали, исследовали
+pounded:
+solitude:одиночество
+smoothing:
+disquietingly intense stare:
+recesses:
+stench:
+glance:
+sternum:
+syringe:
+mild:
+bedside:
+emerged:
+amid:
+domes:
+effortlessle:
+unstraddled:
+prey:
+close-cropped:
+awry:
+coo:
+dove:
+throbbed:
+bewilerment:недоумение, замешательство
+mild:мягкий, умеренный, слабый
+reel:катушка, барабан, наматывать
+reassured:успокоил, убедил
+muddled:запутано, темнить, спутывать
+sabbatical:субботний
+cracled:треснувший
+ICU receptionist: приемная в отделении интенсивоной терапии
+grogginess:шаткость, состояние опъянения
+demanded:потребовал, требуемый
+relief:облегчение, спокойствие
+concussion: сотрясение, контузия
+stride:шагать, шаг (большой)
+hiss:шипение, свист, шипеть, освистывать

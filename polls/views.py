@@ -197,11 +197,7 @@ def generate_list():
     new_mas.append(Word.objects.get(id=mas[3]).word_rus)
     print correct_id[0]
     new_mas.append(correct_id[0])
-    return new_mas
-
-def quiz_res(request):
-    pass
-    
+    return new_mas    
 
 
 def quiz(request):
@@ -223,9 +219,16 @@ def quiz_con(request):
     print correct_rus,request.POST[key_ans],request.POST['q']
     if int(key_ans) == correct_key+1:
         ans1=[]
+        word = Word.objects.get(id=request.POST['q'])
+        word.coef+=20
+        print word.coef+20,word
+        word.save()
     
     else:
         ans1=[correct_rus,request.POST[key_ans],correct_eng]
+        word = Word.objects.get(id=request.POST['q'])
+        word.coef-=20
+        word.save()
 
 
     return render(request, 'dict/res.html', {'FinalList':ans1})

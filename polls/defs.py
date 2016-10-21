@@ -18,6 +18,7 @@ def get_word(string, file):
 	word.isVerb=False
 	word.isAdjective=False
 	word.isAdverb=False
+	word.coef = 100
 
 	if file_meta=="adjective":
 		word.isAdjective=True
