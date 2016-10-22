@@ -40,5 +40,3 @@ entire:целая, полная
 established:установленный, установившийся, признанный, доказанный, укоренившийся: - a well- established... - She's gone.
 exciting:захватывающий, возбуждающий, волнующий: is the most exciting. As you know, the Redskins have been on the forefront
 folksy:народный, общительный, близкий к народу: with the delightfully folksy tale of the Whore of Omaha?
-foreig:чужой
-grievances: жалобы

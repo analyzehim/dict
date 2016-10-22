@@ -12,7 +12,10 @@ import glob
 
 
 
+
+
 def parsing(request):
+    Word.objects.all().delete()
     from defs import get_word
     GT=time.time()
     #Word.objects.all().delete()
@@ -41,7 +44,7 @@ def parsing(request):
 
 
 def test_parsing(request):
-    from defs import test_case
+    from defs import test_case, get_count_of_filestrings
     GT=time.time()
     url_parse = 'http://127.0.0.1:8000/polls/parse'
     url_clean = 'http://127.0.0.1:8000/polls/clean'
@@ -49,8 +52,9 @@ def test_parsing(request):
     if not test_case(url_clean,'Clean'):
         return HttpResponse("ERROR in 1 TestCase")
     print "____________TEST CASE 1 OK_______" 
-
-    if not test_case(url_parse,'397'):
+    count = get_count_of_filestrings()
+    print count
+    if not test_case(url_parse, str(count)):
         return HttpResponse("ERROR in 2 TestCase")
     print "____________TEST CASE 2 OK_______"
 
@@ -62,8 +66,9 @@ def test_parsing(request):
     f = open("data/adjective.txt", 'a')
     f.write("covet:domogatsa")
     f.close()
+    print count+1
 
-    if not test_case(url_parse,'398'):
+    if not test_case(url_parse,str(count+1)):
             f = open("data/adjective.txt", 'r')
             lines = f.readlines()
             lines = lines[:-1]
