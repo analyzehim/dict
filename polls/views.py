@@ -91,7 +91,11 @@ def test_parsing(request):
     for line in lines:
         f.write(line)
     f.close()
-
+    '''
+    if not test_case(url_clean,'Clean'):
+        return HttpResponse("ERROR in 5 TestCase")
+    print "____________TEST CASE 5 OK_______" 
+    '''
 
     return HttpResponse("Passed. <br> Time: "+str(time.time()-GT))
 
@@ -123,7 +127,7 @@ def index(request):
     while 1:
         try:
             key=generate_word(id_max.id)
-
+            print key
             key_mas.add(key)
             
             answer.append(Word.objects.get(id=key).word_eng)
@@ -148,7 +152,7 @@ def index(request):
     for i in mas:
         answer.append(i)
     answer.append(flag)
-    print len(answer)
+    print answer
     return render(request, 'dict/index.html', {'FinalList':answer})
 
 
@@ -189,23 +193,12 @@ def get_ip(request):
 
 
     return HttpResponse(str(count))
-def generate_list():
-    max_id = Word.objects.all().order_by("-id")[0].id
-    mas = range(max_id)
-    mas = random.sample(mas, 4)
-    correct_id = random.sample(mas,1)
-    new_mas = [mas.index(correct_id[0])]
-    new_mas.append(Word.objects.get(id=correct_id[0]))
-    new_mas.append(Word.objects.get(id=mas[0]).word_rus)
-    new_mas.append(Word.objects.get(id=mas[1]).word_rus)
-    new_mas.append(Word.objects.get(id=mas[2]).word_rus)
-    new_mas.append(Word.objects.get(id=mas[3]).word_rus)
-    print correct_id[0]
-    new_mas.append(correct_id[0])
-    return new_mas    
+
+ 
 
 
 def quiz(request):
+    from defs import generate_list
     #ans1 = Word.objects.all().order_by("id")
     ans1 = generate_list()
     print ans1[0]
@@ -226,6 +219,7 @@ def quiz_con(request):
         ans1=[]
         word = Word.objects.get(id=request.POST['q'])
         word.coef+=20
+        word.count_right+=1
         print word.coef+20,word
         word.save()
     
@@ -233,6 +227,7 @@ def quiz_con(request):
         ans1=[correct_rus,request.POST[key_ans],correct_eng]
         word = Word.objects.get(id=request.POST['q'])
         word.coef-=20
+        word.count_wrong+=1
         word.save()
 
 

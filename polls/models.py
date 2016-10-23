@@ -8,6 +8,8 @@ class Word(models.Model):
     count = models.IntegerField(blank=True, null=True)
     coef= models.IntegerField(blank=True, null=True)
     meta = models.CharField(max_length=400,blank=True, null=True)
+    count_right = models.IntegerField(blank=True, null=True)
+    count_wrong = models.IntegerField(blank=True, null=True)
     isNoun = models.NullBooleanField()
     isVerb = models.NullBooleanField()
     isAdjective = models.NullBooleanField()

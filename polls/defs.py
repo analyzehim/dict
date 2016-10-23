@@ -43,6 +43,8 @@ def get_word(string, file):
 	word.isAdjective=False
 	word.isAdverb=False
 	word.coef = 100
+	word.count_right = 0
+	word.count_wrong = 0
 
 	if file_meta=="adjective":
 		word.isAdjective=True
@@ -71,12 +73,40 @@ def get_word(string, file):
 
 	return word
 
+def give_list4():
+    bottom_words = Word.objects.all().order_by("coef")[:10]
+    ids = []
+    for word in bottom_words:
+        ids.append(word.id)
+    return ids
 
+
+def generate_list():
+    import random
+    #max_id = Word.objects.all().order_by("-id")[0].id
+
+
+
+    #mas = range(max_id)
+    mas = random.sample(give_list4(), 4)
+    correct_id = random.sample(mas,1)
+    new_mas = [mas.index(correct_id[0])]
+    new_mas.append(Word.objects.get(id=correct_id[0]))
+    new_mas.append(Word.objects.get(id=mas[0]).word_rus)
+    new_mas.append(Word.objects.get(id=mas[1]).word_rus)
+    new_mas.append(Word.objects.get(id=mas[2]).word_rus)
+    new_mas.append(Word.objects.get(id=mas[3]).word_rus)
+    #print correct_id[0]
+    new_mas.append(correct_id[0])
+    for k in new_mas:
+    	print k,'fuk u'
+    return new_mas   
 
 def generate_word(length):
     a=[]
+    #word = Word.objects.values('id').order_by('-coef')[:5]
+    word = Word.objects.order_by('coef')
 
-    word = Word.objects.all()
     for i in word:
         if (i.coef>100):
             a.append(i.id)
@@ -87,6 +117,7 @@ def generate_word(length):
         if (i.coef<100):
             for k in range(5*int(float(100)/float(i.coef)+1)):
                 a.append(i.id)
+
 
 
    # word=Word.objects.all().order_by("-coef")[length-1]
