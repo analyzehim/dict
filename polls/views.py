@@ -201,7 +201,7 @@ def quiz(request):
     from defs import generate_list
     #ans1 = Word.objects.all().order_by("id")
     ans1 = generate_list()
-    print ans1[0]
+    print ans1
     return render(request, 'dict/begin.html', {'FinalList':ans1})
 
 def quiz_con(request):
@@ -233,3 +233,38 @@ def quiz_con(request):
 
     return render(request, 'dict/res.html', {'FinalList':ans1})
 
+def quiz_rus(request):
+    from defs import generate_list_rus
+    #ans1 = Word.objects.all().order_by("id")
+    ans1 = generate_list_rus()
+    print ans1[0]
+    return render(request, 'dict/begin_rus.html', {'FinalList':ans1})
+
+def quiz_con_rus(request):
+    print request.POST['q']
+    correct_key = int(request.POST['0'])
+    key_ans=0
+    for key in request.POST:
+        if key == 'csrfmiddlewaretoken' or key == '0':
+            continue
+        key_ans = key
+    correct_rus = Word.objects.get(id=request.POST['q']).word_rus
+    correct_eng = Word.objects.get(id=request.POST['q']).word_eng
+    print correct_rus,request.POST[key_ans],request.POST['q']
+    if int(key_ans) == correct_key+1:
+        ans1=[]
+        word = Word.objects.get(id=request.POST['q'])
+        word.coef+=20
+        word.count_right+=1
+        print word.coef+20,word
+        word.save()
+    
+    else:
+        ans1=[correct_rus,request.POST[key_ans],correct_eng]
+        word = Word.objects.get(id=request.POST['q'])
+        word.coef-=20
+        word.count_wrong+=1
+        word.save()
+
+
+    return render(request, 'dict/res_rus.html', {'FinalList':ans1})

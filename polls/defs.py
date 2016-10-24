@@ -2,7 +2,6 @@ from polls.models import Word
 
 speechClassDict = {'other':0,'noun':1,'verb':2,'adjective':3,'adverb':4}
 
-
 def get_count_of_filestrings():
     import glob
     file_list=glob.glob('data/*.txt')
@@ -78,26 +77,21 @@ def give_list4():
     bottom_words = Word.objects.all().order_by("coef")[:10]
     correct_word = random.sample(bottom_words,1)[0]
     ans =[correct_word.id]
-    print correct_word.speechClass
-    temp_mas = Word.objects.filter(speechClass=correct_word.speechClass)
-    temp_mas = random.sample(temp_mas,4)
-    for i in temp_mas:
-    	ans.append(i.id)
 
+    temp_mas_words = Word.objects.filter(speechClass=correct_word.speechClass)
+    while True:
+        temp_mas = random.sample(temp_mas_words,3)
+        if correct_word.id not in temp_mas:
+            break
 
-    ids = []
-    for word in bottom_words:
-        ids.append(word.id)
-    mas4 = random.sample(ids, 4)
+    for word in temp_mas:
+    	ans.append(word.id)
     return ans
 
 
 def generate_list():
     import random
     #max_id = Word.objects.all().order_by("-id")[0].idadverb
-
-
-
     #mas = range(max_id)
     mas = give_list4()
     correct_id = mas[0]
@@ -108,11 +102,32 @@ def generate_list():
     new_mas.append(Word.objects.get(id=mas[1]).word_rus)
     new_mas.append(Word.objects.get(id=mas[2]).word_rus)
     new_mas.append(Word.objects.get(id=mas[3]).word_rus)
+ 
     #print correct_id[0]
     new_mas.append(correct_id)
     for k in new_mas:
     	print k,'fuk u'
     return new_mas   
+
+def generate_list_rus():
+    import random
+    #max_id = Word.objects.all().order_by("-id")[0].idadverb
+
+    #mas = range(max_id)
+    mas = give_list4()
+    correct_id = mas[0]
+    random.shuffle(mas)
+    new_mas = [mas.index(correct_id)]
+    new_mas.append(Word.objects.get(id=correct_id).word_rus)
+    new_mas.append(Word.objects.get(id=mas[0]).word_eng)
+    new_mas.append(Word.objects.get(id=mas[1]).word_eng)
+    new_mas.append(Word.objects.get(id=mas[2]).word_eng)
+    new_mas.append(Word.objects.get(id=mas[3]).word_eng)
+    #print correct_id[0]
+    new_mas.append(correct_id)
+    for k in new_mas:
+        print k,'fuk u'
+    return new_mas  
 
 def generate_word(length):
     a=[]
