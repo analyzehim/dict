@@ -1,5 +1,8 @@
 from polls.models import Word
 
+speechClassDict = {'other':0,'noun':1,'verb':2,'adjective':3,'adverb':4}
+
+
 def get_count_of_filestrings():
     import glob
     file_list=glob.glob('data/*.txt')
@@ -31,37 +34,34 @@ def get_word(string, file):
 
 
 	word = Word(word_eng=english_word,word_rus=russian_word)
-	word.count = 0
+	word.count = speechClassDict['other']
 	#print file
 	try:
 		file_meta = file.split('\\')[1].split('.')[0]
 	except:
 		file_meta = file.split('/')[1].split('.')[0]
 	
-	word.isNoun=False
-	word.isVerb=False
-	word.isAdjective=False
-	word.isAdverb=False
+	word.speechClass = 0
 	word.coef = 100
 	word.count_right = 0
 	word.count_wrong = 0
 
 	if file_meta=="adjective":
-		word.isAdjective=True
+		word.speechClass = speechClassDict['adjective']
 
 	if file_meta=="adverb_preposition":
-		word.isAdverb=True
+		word.speechClass = speechClassDict['adverb']
 
 	if file_meta=="noun":
-		word.isNoun=True
+		word.speechClass = speechClassDict['noun']
 
 	if file_meta=="verb":
-		word.isVerb=True
+		word.speechClass = speechClassDict['verb']
 
 
 	word.meta = file_meta
-	word.coef=100
-	if len(string_mas)>2:
+	word.coef = 100
+	if len(string_mas) > 2:
 	    word.example=string_mas[2]
 	try:
 		id_max = Word.objects.all().latest('id').id
@@ -74,30 +74,42 @@ def get_word(string, file):
 	return word
 
 def give_list4():
+    import random
     bottom_words = Word.objects.all().order_by("coef")[:10]
+    correct_word = random.sample(bottom_words,1)[0]
+    ans =[correct_word.id]
+    print correct_word.speechClass
+    temp_mas = Word.objects.filter(speechClass=correct_word.speechClass)
+    temp_mas = random.sample(temp_mas,4)
+    for i in temp_mas:
+    	ans.append(i.id)
+
+
     ids = []
     for word in bottom_words:
         ids.append(word.id)
-    return ids
+    mas4 = random.sample(ids, 4)
+    return ans
 
 
 def generate_list():
     import random
-    #max_id = Word.objects.all().order_by("-id")[0].id
+    #max_id = Word.objects.all().order_by("-id")[0].idadverb
 
 
 
     #mas = range(max_id)
-    mas = random.sample(give_list4(), 4)
-    correct_id = random.sample(mas,1)
-    new_mas = [mas.index(correct_id[0])]
-    new_mas.append(Word.objects.get(id=correct_id[0]))
+    mas = give_list4()
+    correct_id = mas[0]
+    random.shuffle(mas)
+    new_mas = [mas.index(correct_id)]
+    new_mas.append(Word.objects.get(id=correct_id))
     new_mas.append(Word.objects.get(id=mas[0]).word_rus)
     new_mas.append(Word.objects.get(id=mas[1]).word_rus)
     new_mas.append(Word.objects.get(id=mas[2]).word_rus)
     new_mas.append(Word.objects.get(id=mas[3]).word_rus)
     #print correct_id[0]
-    new_mas.append(correct_id[0])
+    new_mas.append(correct_id)
     for k in new_mas:
     	print k,'fuk u'
     return new_mas   

@@ -10,10 +10,8 @@ class Word(models.Model):
     meta = models.CharField(max_length=400,blank=True, null=True)
     count_right = models.IntegerField(blank=True, null=True)
     count_wrong = models.IntegerField(blank=True, null=True)
-    isNoun = models.NullBooleanField()
-    isVerb = models.NullBooleanField()
-    isAdjective = models.NullBooleanField()
-    isAdverb = models.NullBooleanField()
+    speechClass = models.IntegerField(blank=True, null=True)
+
 
 
     def __unicode__(self):
