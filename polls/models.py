@@ -11,6 +11,7 @@ class Word(models.Model):
     count_right = models.IntegerField(blank=True, null=True)
     count_wrong = models.IntegerField(blank=True, null=True)
     speechClass = models.IntegerField(blank=True, null=True)
+    box = models.IntegerField(blank=True, null=True)
 
 
 
