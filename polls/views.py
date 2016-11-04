@@ -10,7 +10,9 @@ import glob
 
 # Create your views here.
 
-
+def yamap(request):
+    answer = 1
+    return render(request, 'dict/yamap.html', {'FinalList':answer}) 
 
 
 

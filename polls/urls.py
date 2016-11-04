@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^quiz_con$', views.quiz_con, name='quiz_con'),
     url(r'^quiz_rus$', views.quiz_rus, name='quiz_rus'),
     url(r'^quiz_con_rus$', views.quiz_con_rus, name='quiz_con_rus'),
+    url(r'^yamap$', views.yamap, name='yamap'),
     #url(r'^reboot', views.req_reboot, name='req_reboot'),
     #url(r'^shutdown', views.req_shutdown, name='req_shutdown'),
     #url(r'^0d6551d674fdb9f978c8ce74a5ad6515', views.reboot, name='reboot'),

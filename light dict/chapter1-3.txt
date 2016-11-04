@@ -44,7 +44,6 @@ supplication:мольба, просьба
 shroud:пелена, саван
 cloth:ткань, полотно
 hung:висеть
-writhing:
 feces:фекалии
 devouring:пожирание
 sternly:строго
