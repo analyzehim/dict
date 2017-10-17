@@ -16,5 +16,5 @@ git remote
 
 Set up a proxy:
 
-git config --global http.proxy "KL\Raev_e:PASS"@proxy.avp.ru:8080
+git config --global http.proxy "USERNAME:PASS"@proxy.avp.ru:8080
 git config --get http.proxy
